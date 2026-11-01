@@ -10,32 +10,30 @@ struct FeaturedBanner: View {
 
     var body: some View {
         ZStack(alignment: .topLeading) {
-            // Background gradient + glass
-            RoundedRectangle(cornerRadius: 32, style: .continuous)
-                .fill(
-                    ZStack {
-                        LinearGradient(
-                            colors: [
-                                Theme.orange.opacity(0.3),
-                                Theme.gold.opacity(0.15),
-                                Color.black.opacity(0.4),
-                            ],
-                            startPoint: .topLeading,
-                            endPoint: .bottomTrailing
-                        )
-                        RadialGradient(
-                            colors: [Theme.gold.opacity(0.3), .clear],
-                            center: UnitPoint(x: 0.8, y: 0.2),
-                            startRadius: 0,
-                            endRadius: 200
-                        )
-                    }
+            // Background: clipped to rounded rect, no .fill(ZStack)
+            ZStack {
+                LinearGradient(
+                    colors: [
+                        Theme.orange.opacity(0.3),
+                        Theme.gold.opacity(0.15),
+                        Color.black.opacity(0.4),
+                    ],
+                    startPoint: .topLeading,
+                    endPoint: .bottomTrailing
                 )
-                .overlay(
-                    RoundedRectangle(cornerRadius: 32, style: .continuous)
-                        .strokeBorder(Theme.gold.opacity(0.2), lineWidth: 1)
+                RadialGradient(
+                    colors: [Theme.gold.opacity(0.3), .clear],
+                    center: UnitPoint(x: 0.8, y: 0.2),
+                    startRadius: 0,
+                    endRadius: 200
                 )
-                .shadow(color: .black.opacity(0.4), radius: 10, y: 6)
+            }
+            .clipShape(RoundedRectangle(cornerRadius: 32, style: .continuous))
+            .overlay(
+                RoundedRectangle(cornerRadius: 32, style: .continuous)
+                    .strokeBorder(Theme.gold.opacity(0.2), lineWidth: 1)
+            )
+            .shadow(color: .black.opacity(0.4), radius: 10, y: 6)
 
             VStack(alignment: .leading, spacing: 14) {
                 Text("★ \(tweak.category)")
