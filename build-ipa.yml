@@ -1,1 +1,41 @@
+name: Build IPA
 
+on:
+  push:
+    branches: [main, master]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Select Xcode
+        run: sudo xcode-select -switch /Applications/Xcode.app
+      - name: Install XcodeGen
+        run: brew install xcodegen
+      - name: Generate project
+        run: xcodegen generate --spec project.yml
+      - name: Build app
+        run: |
+          xcodebuild \
+            -project Firebreak.xcodeproj \
+            -scheme Firebreak \
+            -configuration Release \
+            -destination "generic/platform=iOS" \
+            -derivedDataPath build \
+            CODE_SIGNING_ALLOWED=NO \
+            CODE_SIGNING_REQUIRED=NO \
+            CODE_SIGN_IDENTITY="" \
+            build
+      - name: Package IPA
+        run: |
+          APP=$(find build/Build/Products -name "Firebreak.app" -maxdepth 4 | head -1)
+          rm -rf Payload && mkdir Payload
+          cp -R "$APP" Payload/
+          rm -rf Payload/Firebreak.app/_CodeSignature
+          zip -qry Firebreak.ipa Payload/
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Firebreak-ipa
+          path: Firebreak.ipa
