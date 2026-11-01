@@ -1,0 +1,67 @@
+name: Firebreak
+options:
+  bundleIdPrefix: app.firebreak
+  deploymentTarget:
+    iOS: "16.0"
+  developmentLanguage: en
+  createIntermediateGroups: true
+  groupSortPosition: top
+
+settings:
+  base:
+    SWIFT_VERSION: "5.9"
+    IPHONEOS_DEPLOYMENT_TARGET: "16.0"
+    TARGETED_DEVICE_FAMILY: "1,2"
+    CODE_SIGN_STYLE: Automatic
+    CODE_SIGNING_REQUIRED: NO
+    CODE_SIGN_IDENTITY: ""
+    ENABLE_USER_SCRIPT_SANDBOXING: NO
+    GENERATE_INFOPLIST_FILE: NO
+    INFOPLIST_FILE: Firebreak/Info.plist
+    PRODUCT_BUNDLE_IDENTIFIER: app.firebreak.sileo
+    PRODUCT_NAME: Firebreak
+    MARKETING_VERSION: "3.0.1"
+    CURRENT_PROJECT_VERSION: "1"
+    ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+    ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME: AccentColor
+    SWIFT_EMIT_LOC_STRINGS: YES
+    ENABLE_PREVIEWS: YES
+    DEAD_CODE_STRIPPING: YES
+    STRIP_INSTALLED_PRODUCT: YES
+
+targets:
+  Firebreak:
+    type: application
+    platform: iOS
+    sources:
+      - path: Firebreak
+        excludes:
+          - "Info.plist"
+    resources:
+      - path: Firebreak/Assets.xcassets
+    info:
+      path: Firebreak/Info.plist
+      properties:
+        CFBundleDisplayName: Firebreak
+        UILaunchScreen:
+          UIColorName: AccentColor
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: app.firebreak.sileo
+
+schemes:
+  Firebreak:
+    build:
+      targets:
+        Firebreak: all
+    run:
+      config: Debug
+    test:
+      config: Debug
+      targets: []
+    profile:
+      config: Release
+    analyze:
+      config: Debug
+    archive:
+      config: Release
